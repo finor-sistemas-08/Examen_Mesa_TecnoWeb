@@ -7,9 +7,7 @@
 
     <?php
     include_once('capa_negocio/clsEmpleado.php');
-
-    // Valor almacena cualquier dato que hayamos colocado para buscar en el input "txtBuscar"
-    // $valor = $_POST['txtBuscar'];
+    
     ?>
 
     <b> REGISTRO DE EMPLEADOS </b>
@@ -18,62 +16,54 @@
             <tr>
                 <td> </td>
                 <td>
-                    <input name="txtIdEmpleado" type="hidden" value="<?php echo $_GET['pidEmpleado']; ?>" />
+                    <input name="txtIdEmpleado" type="hidden" value="" />
                 </td>
             </tr>
             <tr>
                 <td width="100">Nombres</td>
                 <td width="125">
-                    <input name="txtNombre" type="text" value="<?php echo $_GET['pnombre']; ?>" " />
+                    <input name="txtNombre" type="text" value="" " />
 				</td>
 			</tr>
 			<tr>
 				<td width=" 100">Apellido Paterno
                 </td>
                 <td width="125">
-                    <input name="txtPaterno" type="text" value="<?php echo $paterno = $_GET['ppaterno']; ?>" />
+                    <input name="txtPaterno" type="text" value="" />
                 </td>
             </tr>
             <tr>
                 <td width="100">Apellido Materno</td>
                 <td width="125">
-                    <input name="txtMaterno" type="text" value="<?php echo $materno = $_GET['pmaterno']; ?>" />
+                    <input name="txtMaterno" type="text" value="" />
                 </td>
             </tr>
+
             <tr>
-                <td width="100">Tipo</td>
+                <td width="100">Pago por Hora</td>
                 <td width="125">
-                    <input name="txtTipo" type="text" value="<?php echo $tipo = $_GET['ptipo']; ?>" />
+                    <input name="txtPagoHora" type="number" value="0" />
                 </td>
             </tr>
             <tr>
                 <td width="100">Cargo</td>
                 <td width="125">
-                    <input name="txtCargo" type="text" value="<?php echo $cargo = $_GET['pcargo']; ?>" />
+                    <input name="txtCargo" type="text" value="" />
                 </td>
             </tr>
             <tr>
-                <td width="100">Pago por Hora</td>
+                <td width="100">Tipo Docente</td>
                 <td width="125">
-                    <input name="txtPagoHora" type="text" value="<?php echo $pagoHora = $_GET['ppagoHora']; ?>" />
+                    <input name="chbxTipoD" type="checkbox" />
                 </td>
             </tr>
-
-            <td width="100">
-                Buscar:
-            </td>
             <tr>
-                <td width="10">
-                    <input type="radio" name="switch" value="1" checked="checked" <?php if ($_POST['switch'] == "1") echo "checked"; ?> />
-                    Empleados
-                    <br>
-                    <input type="radio" name="switch" value="2" <?php if ($_POST['switch'] == "2") echo "checked"; ?> />
-                    Administrativos
-                    <br>
-                    <input type="radio" name="switch" value="3" <?php if ($_POST['switch'] == "3") echo "checked"; ?> />
-                    Docentes
+                <td width="100">Tipo Administrativo</td>
+                <td width="125">
+                    <input name="chbxTipoA" type="checkbox" />
                 </td>
-
+            </tr>
+            <tr>
             </tr>
             <tr>
                 <td colspan="2">
@@ -93,6 +83,16 @@
 
     <?php
 
+    // Verificar el checked de cada checkbox
+    // echo "El valor de docente";
+    // echo "<br>";
+    // print($_POST['chbxTipoD']);
+    // echo "<br>";
+    // echo "El valor de administrativo";
+    // echo "<br>";
+    // print($_POST['chbxTipoA']);
+    // echo "<br>";
+
     function guardar()
     {
         if ($_POST['txtNombre']) {
@@ -100,9 +100,16 @@
             $obj->setNombre($_POST['txtNombre']);
             $obj->setPaterno($_POST['txtPaterno']);
             $obj->setMaterno($_POST['txtMaterno']);
-            $obj->setTipo($_POST['txtTipos']);
-            $obj->setCargo($_POST['txtCargo']);
             $obj->setPagoHora($_POST['txtPagoHora']);
+            $obj->setCargo($_POST['txtCargo']);
+
+            if (isset($_POST['chbxTipoD'])) {
+                $obj->setTipoD(1);
+            }
+            if (isset($_POST['chbxTipoA'])) {
+                $obj->setTipoA(1);
+            }
+
             if ($obj->guardar())
                 echo "Empleado Guardado";
             else
@@ -114,7 +121,7 @@
     function mostrarRegistros()
     {
         $obj = new Empleado();
-        $registros = $obj->mostrarEmpleados();
+        $registros = $obj->mostrar();
         echo "<table border='1' align='left'>";
 
         // En una fila se establecen las columnas con sus nombres
@@ -123,58 +130,10 @@
 				<td> Nombre </td>
 				<td> Paterno </td>
 				<td> Materno </td>
-				<td> Tipo </td>
-              </tr>";
-        while ($fila = mysqli_fetch_object($registros)) {
-            echo "<tr>";
-            echo "<td>$fila->id_emp</td>";
-            echo "<td>$fila->nombre</td>";
-            echo "<td>$fila->paterno</td>";
-            echo "<td>$fila->materno</td>";
-            echo "<td>$fila->tipo</td>";
-        }
-        echo "</table>";
-    }
-    function mostrarRegistrosDocente()
-    {
-        $obj = new Empleado();
-        $registros = $obj->mostrarDocente();
-        echo "<table border='1' align='left'>";
-
-        // En una fila se establecen las columnas con sus nombres
-        echo "<tr> 
-                <td> Codigo </td>
-				<td> Nombre </td>
-				<td> Paterno </td>
-				<td> Materno </td>
-				<td> Tipo </td>
 				<td> Pago por Hora </td>
-              </tr>";
-        while ($fila = mysqli_fetch_object($registros)) {
-            echo "<tr>";
-            echo "<td>$fila->id_emp</td>";
-            echo "<td>$fila->nombre</td>";
-            echo "<td>$fila->paterno</td>";
-            echo "<td>$fila->materno</td>";
-            echo "<td>$fila->tipo</td>";
-            echo "<td>$fila->pagoHora</td>";
-        }
-        echo "</table>";
-    }
-    function mostrarRegistrosAdministrativo()
-    {
-        $obj = new Empleado();
-        $registros = $obj->mostrarAdministrativo();
-        echo "<table border='1' align='left'>";
-
-        // En una fila se establecen las columnas con sus nombres
-        echo "<tr> 
-                <td> Codigo </td>
-				<td> Nombre </td>
-				<td> Paterno </td>
-				<td> Materno </td>
-				<td> Tipo </td>
 				<td> Cargo </td>
+				<td> Docente </td>
+				<td> Administrativo </td>
               </tr>";
         while ($fila = mysqli_fetch_object($registros)) {
             echo "<tr>";
@@ -182,8 +141,10 @@
             echo "<td>$fila->nombre</td>";
             echo "<td>$fila->paterno</td>";
             echo "<td>$fila->materno</td>";
-            echo "<td>$fila->tipo</td>";
+            echo "<td>$fila->pagoHora</td>";
             echo "<td>$fila->cargo</td>";
+            echo "<td>$fila->tipoD</td>";
+            echo "<td>$fila->tipoA</td>";
         }
         echo "</table>";
     }
@@ -191,15 +152,7 @@
     //programa principal
     switch ($_POST['botones']) {
         case "Mostrar Datos": {
-                if ($_POST['switch'] == 1) {
-                    mostrarRegistros();
-                } elseif ($_POST['switch'] == 2) {
-                    mostrarRegistrosAdministrativo();
-                } elseif ($_POST['switch'] == 3) {
-                    mostrarRegistrosDocente();
-                } else {
-                    echo "No ha seleccionado que datos mostrar";
-                }
+                mostrarRegistros();
             }
             break;
 

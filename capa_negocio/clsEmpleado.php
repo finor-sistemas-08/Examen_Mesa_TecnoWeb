@@ -7,9 +7,10 @@ class Empleado extends Conexion
     private $nombre;
     private $paterno;
     private $materno;
-    private $tipo;
-    private $cargo;
     private $pagoHora;
+    private $cargo;
+    private $tipoD;
+    private $tipoA;
 
     //construtor
     public function __construct()
@@ -19,136 +20,186 @@ class Empleado extends Conexion
         $this->nombre = "";
         $this->paterno = "";
         $this->materno = "";
-        $this->tipo = "";
-        $this->cargo = "";
         $this->pagoHora = 0;
+        $this->cargo = "";
+        $this->tipoD = 0;
+        $this->tipoA = 0;
     }
     //propiedades de acceso
-    public function setIdEmpleado($valor)
-    {
-        $this->id_emp = $valor;
-    }
-    public function getIdEmpleado()
+    /**
+     * Get the value of id_emp
+     */
+    public function getIdEmp()
     {
         return $this->id_emp;
     }
 
-    public function setNombre($valor)
+    /**
+     * Set the value of id_emp
+     *
+     * @return  self
+     */
+    public function setIdEmp($id_emp)
     {
-        $this->nombre = $valor;
+        $this->id_emp = $id_emp;
+
+        return $this;
     }
+
+    /**
+     * Get the value of nombre
+     */
     public function getNombre()
     {
         return $this->nombre;
     }
 
-    public function setPaterno($valor)
+    /**
+     * Set the value of nombre
+     *
+     * @return  self
+     */
+    public function setNombre($nombre)
     {
-        $this->paterno = $valor;
+        $this->nombre = $nombre;
+
+        return $this;
     }
+
+    /**
+     * Get the value of paterno
+     */
     public function getPaterno()
     {
         return $this->paterno;
     }
 
-    public function setMaterno($valor)
+    /**
+     * Set the value of paterno
+     *
+     * @return  self
+     */
+    public function setPaterno($paterno)
     {
-        $this->materno = $valor;
+        $this->paterno = $paterno;
+
+        return $this;
     }
+
+    /**
+     * Get the value of materno
+     */
     public function getMaterno()
     {
         return $this->materno;
     }
 
-    public function setTipo($valor)
+    /**
+     * Set the value of materno
+     *
+     * @return  self
+     */
+    public function setMaterno($materno)
     {
-        $this->tipo = $valor;
-    }
-    public function getTipo()
-    {
-        return $this->tipo;
+        $this->materno = $materno;
+
+        return $this;
     }
 
-    public function setCargo($valor)
-    {
-        $this->cargo = $valor;
-    }
-    public function getCargo()
-    {
-        return $this->cargo;
-    }
-
-    public function setPagoHora($valor)
-    {
-        $this->pagoHora = $valor;
-    }
+    /**
+     * Get the value of pagoHora
+     */
     public function getPagoHora()
     {
         return $this->pagoHora;
     }
 
+    /**
+     * Set the value of pagoHora
+     *
+     * @return  self
+     */
+    public function setPagoHora($pagoHora)
+    {
+        $this->pagoHora = $pagoHora;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cargo
+     */
+    public function getCargo()
+    {
+        return $this->cargo;
+    }
+
+    /**
+     * Set the value of cargo
+     *
+     * @return  self
+     */
+    public function setCargo($cargo)
+    {
+        $this->cargo = $cargo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tipoD
+     */
+    public function getTipoD()
+    {
+        return $this->tipoD;
+    }
+
+    /**
+     * Set the value of tipoD
+     *
+     * @return  self
+     */
+    public function setTipoD($tipoD)
+    {
+        $this->tipoD = $tipoD;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tipoA
+     */
+    public function getTipoA()
+    {
+        return $this->tipoA;
+    }
+
+    /**
+     * Set the value of tipoA
+     *
+     * @return  self
+     */
+    public function setTipoA($tipoA)
+    {
+        $this->tipoA = $tipoA;
+
+        return $this;
+    }
+
+
+    // Insertando Empleado
     public function guardar()
     {
-        // Insertando EMpleado
-        $sql = "insert into empleado(nombre,paterno,materno,tipo) values('$this->nombre','$this->paterno','$this->materno',$this->tipo)";
+        $sql = "insert into empleado(nombre,paterno,materno,pagoHora,cargo,tipoD,tipoA)values('$this->nombre','$this->paterno','$this->materno',$this->pagoHora,'$this->cargo',$this->tipoD,$this->tipoA)";
         if (parent::ejecutar($sql)) {
-            $res = true;
-
-            // Obteniendo el ID del empleado
-            $sql = "select max(id_emp) from empleado";
-            $aux = mysqli_fetch_object(parent::ejecutar($sql));
-            $this->setIdEmpleado($aux->id_emp);
-
-            if ($this->tipo == "Administrador") {
-                // Insertando Administrador
-                $sql = "insert into administrativo(id_emp,cargo)values('$this->id_emp',$this->cargo)";
-                if (parent::ejecutar($sql)) {
-                    $res = true;
-                } else {
-                    $res = false;
-                }
-            } elseif ($this->tipo == "Docente") {
-                // Insertando docente
-                $sql = "insert into docente(id_emp,pagoHora)values('$this->id_emp',$this->pagoHora)";
-                if (parent::ejecutar($sql)) {
-                    $res = true;
-                } else {
-                    $res = false;
-                }
-            } else {
-                $res = false;
-            }
-        } else {
-            $res = false;
+            return true;
         }
-        return $res;
+        return false;
     }
 
-    public function mostrarEmpleados()
+    public function mostrar()
     {
-        $sql = "select id_emp, nombre, paterno, materno, tipo
-                from empleado                
-                ";
-        return parent::ejecutar($sql);
-    }
-
-    public function mostrarAdministrativo()
-    {
-        $sql = "select empleado.id_emp, nombre, paterno, materno, tipo, cargo
-                from empleado
-                INNER JOIN administrativo
-                ON empleado.id_emp = administrativo.id_emp;
-                ";
-        return parent::ejecutar($sql);
-    }
-
-    public function mostrarDocente()
-    {
-        $sql = "select empleado.id_emp, nombre, paterno, materno, tipo, pagoHora
-                from empleado
-                INNER JOIN docente
-                ON empleado.id_emp = docente.id_emp;
-                ";
+        $sql = "select *from empleado";
         return parent::ejecutar($sql);
     }
 }
