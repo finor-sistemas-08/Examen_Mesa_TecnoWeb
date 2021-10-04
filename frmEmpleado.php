@@ -16,30 +16,28 @@
 			<tr>
 				<td> </td>
 				<td>
-					<?php $idemp = $_GET['idemp']; ?>
-					<input name="txtIdEmpleado" type="text" value="<?php echo $idemp; ?>" />
+
+					<input name="txtIdEmpleado" type="hidden" value="<?php echo $_GET['idemp']; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td width="100">Nombres</td>
 				<td width="125">
-					<?php $nombre = $_GET['nombre']; ?>
-					<input name="txtNombre" type="text" value="<?php echo $nombre; ?>" />
+
+					<input name="txtNombre" type="text" value="<?php echo $_GET['nombre']; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td width=" 100">Apellido Paterno
 				</td>
 				<td width="125">
-					<?php $paterno = $_GET['paterno']; ?>
-					<input name="txtPaterno" type="text" value="<?php echo $paterno; ?>" />
+					<input name="txtPaterno" type="text" value="<?php echo $_GET['paterno']; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td width="100">Apellido Materno</td>
 				<td width="125">
-					<?php $materno = $_GET['materno']; ?>
-					<input name="txtMaterno" type="text" value="<?php echo $materno; ?>" />
+					<input name="txtMaterno" type="text" value="<?php echo $_GET['materno']; ?>" />
 				</td>
 			</tr>
 
@@ -57,8 +55,7 @@
 			<tr>
 				<td width="100">Cargo</td>
 				<td width="125">
-					<?php $cargo = $_GET['cargo']; ?>
-					<input name="txtCargo" type="text" value="<?php echo $cargo; ?>" />
+					<input name="txtCargo" type="text" value="<?php echo $_GET['cargo']; ?>" />
 				</td>
 			</tr>
 			<tr>
