@@ -42,8 +42,6 @@ class Empleado extends Conexion
 	public function setIdEmp($id_emp)
 	{
 		$this->id_emp = $id_emp;
-
-		return $this;
 	}
 
 	/**
@@ -190,7 +188,8 @@ class Empleado extends Conexion
 	// Insertando Empleado
 	public function guardar()
 	{
-		$sql = "insert into empleado(nombre,paterno,materno,pagoHora,cargo,tipoD,tipoA)values('$this->nombre','$this->paterno','$this->materno',$this->pagoHora,'$this->cargo',$this->tipoD,$this->tipoA)";
+		$sql = "insert into empleado(nombre,paterno,materno,pagoHora,cargo,tipoD,tipoA)
+				values('$this->nombre','$this->paterno','$this->materno',$this->pagoHora,'$this->cargo',$this->tipoD,$this->tipoA)";
 		if (parent::ejecutar($sql)) {
 			return true;
 		} else {
@@ -201,11 +200,11 @@ class Empleado extends Conexion
 	public function modificar()
 	{
 		$sql = "update empleado 
-				set nombre=$this->nombre,
-					paterno=$this->paterno,
-					materno=$this->materno,
+				set nombre='$this->nombre',
+					paterno='$this->paterno',
+					materno='$this->materno',
 					pagoHora=$this->pagoHora,
-					cargo=$this->cargo,
+					cargo='$this->cargo',
 					tipoD=$this->tipoD,
 					tipoA=$this->tipoA
 				where id_emp = $this->id_emp";
@@ -218,7 +217,8 @@ class Empleado extends Conexion
 
 	public function eliminar()
 	{
-		$sql = "delete from empleado WHERE id_emp=$this->id_emp;";
+		$sql = "delete from empleado
+				WHERE id_emp=$this->id_emp;";
 		if (parent::ejecutar($sql)) {
 			return true;
 		} else {
