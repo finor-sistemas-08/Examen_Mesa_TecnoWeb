@@ -197,6 +197,23 @@ class Empleado extends Conexion
         return false;
     }
 
+    public function modificar()
+    {
+        $sql = "update empleado set nombre=$this->nombre, paterno = $this->paterno, materno = $this->materno, pagoHora=$this->pagoHora,cargo=$this->cargo,tipoD=$this->tipoD,tipoA=$this->tipoA where id_emp = $this->id_emp";
+        if (parent::ejecutar($sql)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function eliminar()
+    {
+        $sql = "delete from empleado WHERE id_emp=$this->id_emp;";
+        if (parent::ejecutar($sql)) {
+            return true;
+        }
+        return false;
+    }
     public function mostrar()
     {
         $sql = "select *from empleado";

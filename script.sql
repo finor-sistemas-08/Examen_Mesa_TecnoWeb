@@ -17,3 +17,5 @@ INSERT INTO empleado(nombre,paterno,materno,pagoHora,cargo,tipoD,tipoA)values("R
 select *from empleado;
 --Obtener el último ID de la tabla Empleado
 select max(id_emp) from empleado;
+
+DELETE from empleado WHERE id_emp=4;
