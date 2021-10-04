@@ -19,3 +19,13 @@ select *from empleado;
 select max(id_emp) from empleado;
 
 DELETE from empleado WHERE id_emp=4;
+
+update empleado 
+set nombre="hola",
+	paterno = "$this->paterno",
+	materno = "$this->materno",
+	pagoHora=800,
+	cargo="$this->cargo,",
+	tipoD=1,
+	tipoA=1
+where id_emp =12
